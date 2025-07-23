@@ -13,9 +13,26 @@ For this use case, the load is medications.
 
 ## Building the application
 
+To generate required files for OpenAPI/Swagger,
+
+Open Terminal, and run command:
+`` 
+mvn clean install
+``
+
 ## Running the application
 
-## Running tests
+`` 
+mvn spring-boot:run
+``
+
+## Testing the application
+
+* For Postman, collections can be imported from the directory:
+`postman-collection`
+
+* Alternatively, you may use Swagger UI to test. Once run, navigate to the Swagger UI:
+`http://localhost:8080/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config#/`
 
 ---
 

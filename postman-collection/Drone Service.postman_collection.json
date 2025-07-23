@@ -1,0 +1,115 @@
+{
+	"info": {
+		"_postman_id": "4d4ba7b2-9bfe-42df-8cac-83b0e65af6f6",
+		"name": "Drone Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "14325042"
+	},
+	"item": [
+		{
+			"name": "Register drone",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"serialNumber\": \"ABCD-1234-EFGH-5678\",\r\n  \"model\": \"LIGHT_WEIGHT\",\r\n  \"weightLimit\": 100,\r\n  \"batteryCapacity\": 100,\r\n  \"state\": \"IDLE\",\r\n  \"payload\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/drone"
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve all drones",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/drone"
+			},
+			"response": []
+		},
+		{
+			"name": "Add payload to drone",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "medicationPayload",
+							"value": "{\"name\":\"paracetamol\", \"weight\":1, \"code\":\"PAR_85\"}",
+							"type": "text"
+						},
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/Administrator/Downloads/66af01acb958aec7b785c9b8c22c55bd.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/drone/:serialNumber/load",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"drone",
+						":serialNumber",
+						"load"
+					],
+					"variable": [
+						{
+							"key": "serialNumber",
+							"value": "ABCD-1234-EFGH-5678"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get payload image",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/drone/ABCD-1234-EFGH-5678/payload/PAR_85/image"
+			},
+			"response": []
+		},
+		{
+			"name": "Get drone payload",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/drone/:serialNumber/payload",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"drone",
+						":serialNumber",
+						"payload"
+					],
+					"variable": [
+						{
+							"key": "serialNumber",
+							"value": "ABCD-1234-EFGH-5678"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
