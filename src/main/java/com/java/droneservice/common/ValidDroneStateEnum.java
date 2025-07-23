@@ -1,4 +1,4 @@
-package com.java.droneservice.common.utils;
+package com.java.droneservice.common;
 
 import lombok.Getter;
 

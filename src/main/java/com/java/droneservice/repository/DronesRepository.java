@@ -1,5 +1,6 @@
 package com.java.droneservice.repository;
 
+import com.java.droneservice.model.DroneStateEnum;
 import com.java.droneservice.repository.entities.DroneEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -15,4 +16,6 @@ public interface DronesRepository extends JpaRepository<DroneEntity, Long> {
     boolean existsBySerialNumber(String serialNumber);
 
     DroneEntity findBySerialNumber(String serialNumber);
+
+    List<DroneEntity> findByState(String state);
 }

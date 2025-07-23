@@ -1,4 +1,4 @@
-package com.java.droneservice.common.utils;
+package com.java.droneservice.common;
 
 import com.java.droneservice.model.DroneModelEnum;
 import org.springframework.stereotype.Component;

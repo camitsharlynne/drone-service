@@ -2,10 +2,9 @@ package com.java.droneservice.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.java.droneservice.common.utils.Mapper;
-import com.java.droneservice.common.utils.ValidDroneStateEnum;
+import com.java.droneservice.common.ValidDroneStateEnum;
 import com.java.droneservice.exceptions.DroneServiceException;
 import com.java.droneservice.model.DroneDTO;
-import com.java.droneservice.model.DroneModelEnum;
 import com.java.droneservice.model.DroneStateEnum;
 import com.java.droneservice.model.MedicationDTO;
 import com.java.droneservice.repository.DronesRepository;
@@ -13,7 +12,6 @@ import com.java.droneservice.repository.entities.DroneEntity;
 import com.java.droneservice.repository.entities.MedicationEntity;
 import org.apache.commons.lang3.EnumUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,7 +19,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.java.droneservice.common.utils.Constants.modelMap;
+import static com.java.droneservice.common.Constants.modelMap;
 
 /**
  * Service class containing business logic

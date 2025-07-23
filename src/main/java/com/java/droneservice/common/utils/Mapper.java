@@ -12,7 +12,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.java.droneservice.common.utils.Constants.modelMap;
+import static com.java.droneservice.common.Constants.modelMap;
 
 @Component
 public class Mapper {
