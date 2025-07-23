@@ -1,0 +1,216 @@
+openapi: 3.0.3
+info:
+  title: Drone Delivery Service
+  description: 'A service exposing REST API which allow clients to communicate with the drones.'
+  contact:
+    email: camitsharlynne@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/api/v1
+paths:
+  /drone:
+    get:
+      summary: Retrieves the list of drones.
+      description: 'Retrieves the list of drones.'
+      operationId: getAllDrones
+      responses:
+        "200":
+          description: The list of all drones available.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DroneDTO"
+      tags:
+        - drone
+    post:
+      summary: Registers drone.
+      description: 'Registers drone.'
+      operationId: registerDrone
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/DroneDTO"
+      responses:
+        "200":
+          description: The newly registered drone.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DroneDTO"
+      tags:
+        - drone
+    delete:
+      summary: Delete an existing drone.
+      description: "Delete an existing project plan."
+      operationId: deleteDrone
+      responses:
+        default:
+          description: Default error sample response
+      tags:
+        - drone
+  /drone/{serialNumber}/load:
+    put:
+      summary: Loads a drone with a medication payload.
+      description: 'Loads a drone with a medication payload using serial number.'
+      operationId: loadMedication
+      parameters:
+        - in: path
+          name: serialNumber
+          schema:
+            type: string
+            pattern: '^[A-Z0-9]{4}(-[A-Z0-9]{4}){3}$'
+            maxLength: 100
+            description: The serial number of the drone.
+          required: true
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                medicationPayload:
+                  type: string
+                  format: json
+                  description: JSON string of MedicationDTO
+                file:
+                  type: string
+                  description: The image of the medication payload.
+                  format: binary
+
+      responses:
+        "200":
+          description: The updated drone details.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DroneDTO"
+
+      tags:
+        - drone
+  /drone/{serialNumber}/payload:
+    get:
+      summary: Retrieves loaded medications for a given drone.
+      description: 'Retrieves loaded medications for a given drone.'
+      operationId: getPayloadByDroneSerialNumber
+      parameters:
+        - name: serialNumber
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: The list of loaded medications for a given drone.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MedicationDTO"
+      tags:
+        - drone
+  /drone/{serialNumber}/payload/{medicationCode}/image:
+    get:
+      summary: Download medication image
+      description: 'Download medication image.'
+      operationId: getMedicationImage
+      parameters:
+        - in: path
+          name: serialNumber
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: medicationCode
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Image file
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+      tags:
+        - drone
+
+components:
+  schemas:
+    DroneDTO:
+      properties:
+        serialNumber:
+          type: string
+          pattern: '^[A-Z0-9]{4}(-[A-Z0-9]{4}){3}$'
+          maxLength: 100
+          description: The serial number of the drone.
+        model:
+          type: string
+          description: The model of the drone.
+          $ref: "#/components/schemas/DroneModelEnum"
+        weightLimit:
+          type: int
+          minimum: 1
+          maximum: 100
+          description: The weight limit of the drone.
+        batteryCapacity:
+          type: int
+          minimum: 1
+          maximum: 100
+          description: The battery capacity of the drone.
+        state:
+          type: string
+          description: The state of the drone.
+          $ref: "#/components/schemas/DroneStateEnum"
+        payload:
+          type: array
+          description: The medication payload for the drone.
+          items:
+            $ref: "#/components/schemas/MedicationDTO"
+    MedicationDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          pattern: '^[A-Za-z0-9_-]+$'
+          description: The name of the medication.
+        weight:
+          type: int
+          minimum: 1
+          maximum: 100
+          description: The weight of the medication.
+        code:
+          type: string
+          pattern: '^[A-Z0-9_]+$'
+          description: The medication code.
+        imageUrl:
+          type: string
+          format: uri
+          description: A URL where the image can be downloaded.
+    DroneModelEnum:
+      type: string
+      enum:
+        - LIGHT_WEIGHT
+        - MIDDLE_WEIGHT
+        - CRUISER_WEIGHT
+        - HEAVY_WEIGHT
+    DroneStateEnum:
+      type: string
+      enum:
+        - IDLE
+        - LOADING
+        - LOADED
+        - DELIVERING
+        - DELIVERED
+        - RETURNING
